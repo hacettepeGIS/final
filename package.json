@@ -9,8 +9,7 @@
     "lint": "ng lint",
     "build:aot2": "node --max_old_space_size=4096 ./node_modules/.bin/ng build --prod --aot",
     "e2e": "ng e2e",
-    "postinstall": "ng build --aot --prod",
-    "heroku-postbuild": "ng build --prod"
+    "heroku-postbuild": "ng build"
   },
   "private": true,
   "dependencies": {
