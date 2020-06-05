@@ -95,10 +95,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://bitbucket.org/grigson/smartadmin-angular-2"
-  },
-  "bugs": {
-    "url": "https://bitbucket.org/grigson/smartadmin-angular-2/issues"
+    "url": "https://github.com/hacettepeGIS/final"
   },
   "engines": {
     "node": "10.19.0",
