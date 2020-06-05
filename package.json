@@ -101,7 +101,7 @@
     "url": "https://bitbucket.org/grigson/smartadmin-angular-2/issues"
   },
   "engines": {
-    "node": ">= 4.2.1",
+    "node": "8.9.4",
     "npm": ">= 3"
   }
 }
