@@ -40,7 +40,7 @@ export class ActivityComponent {
       this.options.center.lat = this.eventsData[0].lat = position.coords.latitude;
       this.options.center.lng = this.eventsData[0].lng = position.coords.longitude;
 
-      this.leaflet.panTo(this.options.center);     
+      this.leaflet.centerChange();     
     },
       (err) => {
         if (err.code == 1) {
