@@ -8,7 +8,7 @@ import { timer } from 'rxjs';
   templateUrl: './activity.component.html'
 })
 export class ActivityComponent {
-  @ViewChild('leaflet', { read: LeafletDirective }) leaflet;
+  @ViewChild('leaflet', { read: LeafletDirective }) leaflet:LeafletDirective;
 
   data: any;
 
@@ -40,7 +40,7 @@ export class ActivityComponent {
       this.options.center.lat = this.eventsData[0].lat = position.coords.latitude;
       this.options.center.lng = this.eventsData[0].lng = position.coords.longitude;
 
-      this.leaflet.centerChange();     
+      this.leaflet.getMap().panTo(this.options.center)
     },
       (err) => {
         if (err.code == 1) {
