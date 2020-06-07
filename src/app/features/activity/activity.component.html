@@ -1,0 +1,18 @@
+<div id="content" class="no-padding">
+    <div style="height: 90vh;"
+        leaflet 
+        [leafletOptions]="options" 
+        [leafletLayersControl]="layersControl">
+    </div>
+    <div class="btn-group" style="position: absolute;left: 50px;top: 10px;z-index: 999;">
+        <a class="btn btn-default" placement="bottom" tooltip="Mark Important"><strong><i
+                    class="fa fa-play fa-lg text-danger"></i></strong></a>
+        <a class="btn btn-default" placement="bottom" tooltip="Move to folder"><strong><i
+                    class="fa fa-stop fa-lg text-danger"></i></strong></a>
+        <a class="deletebutton btn btn-default" placement="bottom" tooltip="Delete"><strong><i
+                    class="fa fa-save fa-lg"></i></strong></a>
+        <a class="deletebutton btn btn-default" placement="bottom" tooltip="Delete"><strong><i
+            class="fa fa-trash-o fa-lg"></i></strong></a>
+    </div>
+
+</div>
