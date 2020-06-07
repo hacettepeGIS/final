@@ -39,6 +39,8 @@ export class ActivityComponent {
     navigator.geolocation.getCurrentPosition((position) => {
       this.options.center.lat = this.eventsData[0].lat = position.coords.latitude;
       this.options.center.lng = this.eventsData[0].lng = position.coords.longitude;
+
+      this.leaflet.panTo(this.options.center);     
     },
       (err) => {
         if (err.code == 1) {
