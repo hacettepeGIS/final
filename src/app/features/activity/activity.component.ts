@@ -129,7 +129,8 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
       content: "Would you like to give a name to your activity?",
       buttons: "[Accept]",
       input: "text",
-      placeholder: "Enter your activity name"
+      placeholder: "Enter your activity name",
+      value:""
     }, (ButtonPress, Value) => {
       activity.properties.name=Value
 
