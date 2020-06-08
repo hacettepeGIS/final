@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ComponentFactoryResolver, Injector, EmbeddedViewRef, DoCheck, OnDestroy } from '@angular/core';
-import { tileLayer, latLng, icon, marker, MapOptions, LatLng } from 'leaflet';
+import { tileLayer, latLng, icon, marker, MapOptions, LatLng, GeoJSON } from 'leaflet';
 import { LeafletDirective } from '@asymmetrik/ngx-leaflet';
 import { ActivityTypesService, NotificationService, JsonApiService, ActivityService } from '@app/core/services';
 import {antPath} from 'leaflet-ant-path';
@@ -84,11 +84,11 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
 
     this.showEvents()
   },(err) => {
-      if (err.code == 1) {
-        alert("Error: Access is denied!");
-      } else if (err.code == 2) {
-        alert("Error: Position is unavailable!");
-      }
+      // if (err.code == 1) {
+      //   alert("Error: Access is denied!");
+      // } else if (err.code == 2) {
+      //   alert("Error: Position is unavailable!");
+      // }
     }, { timeout: 5000 })
 
 
@@ -123,33 +123,52 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
   }
 
   save(){   
-    this.activityService.saveActivity(this.antPath.toGeoJSON()).subscribe(
-      ()=>{
-        this.notificationService.smallBox({
-          title: "SAVED!",
-          content: "Activity has saved successfully!",
-          color: "#739E73",
-          iconSmall: "fa fa-save fa-2x fadeInRight animated",
-          timeout: 5000
-        })
+    var activity = this.antPath.toGeoJSON()
+    this.notificationService.smartMessageBox({
+      title: "Warning",
+      content: "Would you like to give a name to your activity?",
+      buttons: "[Accept]",
+      input: "text",
+      placeholder: "Enter your activity name"
+    }, (ButtonPress, Value) => {
+      activity.properties.name=Value
 
-        this.isSaveVisible=false;
-        this.isDiscardVisible=false;
-        this.isStartVisible=true;
-        this.isActivitySelectVisible=true;
-    
-        this.antPath._path=[];
-        this.totalDistance = 0.00000;
-        this.elapsedTime ='00:00:00'
-      },
-      (err)=>this.notificationService.smallBox({
-        title: "ERROR!",
-        content: err,
-        color: "#C46A69",
-        iconSmall: "fa fa-bell fa-2x fadeInRight animated",
+      this.notificationService.smallBox({
+        title: "Test!",
+        content: JSON.stringify(activity),
+        color: "#739E73",
+        iconSmall: "fa fa-save fa-2x fadeInRight animated",
         timeout: 5000
       })
-    );
+
+      this.activityService.saveActivity(activity).subscribe(
+        ()=>{
+          this.notificationService.smallBox({
+            title: "SAVED!",
+            content: "Activity has saved successfully!",
+            color: "#739E73",
+            iconSmall: "fa fa-save fa-2x fadeInRight animated",
+            timeout: 5000
+          })
+  
+          this.isSaveVisible=false;
+          this.isDiscardVisible=false;
+          this.isStartVisible=true;
+          this.isActivitySelectVisible=true;
+      
+          this.antPath._path=[];
+          this.totalDistance = 0.00000;
+          this.elapsedTime ='00:00:00'
+        },
+        (err)=>this.notificationService.smallBox({
+          title: "ERROR!",
+          content: err,
+          color: "#C46A69",
+          iconSmall: "fa fa-bell fa-2x fadeInRight animated",
+          timeout: 5000
+        })
+      );
+    });
   }
 
   discard(){
