@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ComponentFactoryResolver, Injector, EmbeddedViewRef, DoCheck, OnDestroy } from '@angular/core';
 import { tileLayer, latLng, icon, marker, MapOptions, LatLng } from 'leaflet';
 import { LeafletDirective } from '@asymmetrik/ngx-leaflet';
-import { ActivityTypesService, NotificationService } from '@app/core/services';
+import { ActivityTypesService, NotificationService, JsonApiService } from '@app/core/services';
 import {antPath} from 'leaflet-ant-path';
 
 @Component({
@@ -198,9 +198,27 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
   }
 
   calculateTotalDistance(){
+
+    this.notificationService.smallBox({
+      title: "Konumlar",
+      content: JSON.stringify(this.antPath._path),
+      color: "#C46A69",
+      timeout: 2000
+    });
+
+
     // Calculating the distance of the polyline
-    var tempLatLng = null;
+    var tempLatLng:LatLng = null;
     $.each(this.antPath._path, function(i, latlng){
+
+      this.notificationService.smallBox({
+        title: "latlng",
+        content: JSON.stringify(latlng),
+        color: "#C46A69",
+        timeout: 2000
+      });
+
+
         let position =new LatLng(latlng[0],latlng[1])
         if(tempLatLng == null){
             tempLatLng = position;
