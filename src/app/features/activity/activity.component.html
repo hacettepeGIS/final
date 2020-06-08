@@ -22,7 +22,7 @@
             <a class="btn btn-default" placement="bottom" tooltip="Discard Activity" (click)="discard()" [style.display]="isDiscardVisible ? 'block' : 'none'"><strong><i
                 class="fa fa-trash-o fa-lg text-info"></i></strong></a>
         </div>
-        <div class="text-info"><strong>Total Distance {{totalDistance}}</strong></div>
-            <div class="text-info"><strong>Elapsed Time {{elapsedTime}}</strong></div>
+        <div class="text-info"><strong>Total Distance {{(ftotalDistance).toFixed(0)/1000)}} km</strong></div>
+        <div class="text-info"><strong>Elapsed Time {{elapsedTime}}</strong></div>
     </div> 
 </div>
