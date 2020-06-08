@@ -19,7 +19,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
   layers: any[];
 
   activityTypes=[]
-  selectedActivity=0;
+  selectedActivity={};
   eventsData: Array<any> = [{
     lat: 39.920763,
     lng: 32.854061,
@@ -60,7 +60,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
 
     this.activityTypesService.getTypes().subscribe((resp)=>{
       this.activityTypes=resp
-      this.selectedActivity=resp[0].id
+      this.selectedActivity=resp[0]
       this.showEvents()
     },(err)=>{
       alert(`Activity types could not fetch from api service. Error : ${err}`)
@@ -122,7 +122,15 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
     })
   }
 
-  save(){   
+  save(){
+    let lastPoint = this.eventsData[this.eventsData.length - 1];
+    let hour = lastPoint.time.getHours() 
+    let message= hour>5 && hour<11 ? "Morning " :
+                 hour>=11 && hour<15 ? "Lunch " :
+                 hour>=15 && hour<18 ? "AFternoon " :
+                 hour>=18 && hour<22 ? "Evenning " : "Night ";
+    message+=this.selectedActivity["name"]
+
     var activity = this.antPath.toGeoJSON()
     this.notificationService.smartMessageBox({
       title: "Warning",
@@ -130,7 +138,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
       buttons: "[Accept]",
       input: "text",
       placeholder: "Enter your activity name",
-      options: [$(this).data('')]
+      options: [$(this).data(message)]
     }, (ButtonPress, Value) => {
       activity.properties.name=Value
 
@@ -206,7 +214,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
         [lastPoint.lat, lastPoint.lng],
         {
           icon: icon({
-            iconUrl: `assets/img/${this.selectedActivity}.png`, 
+            iconUrl: `assets/img/${this.selectedActivity["id"]}.png`, 
             iconSize: [32, 32]
           })
         }
