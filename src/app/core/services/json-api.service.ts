@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 import {config} from '@app/core/smartadmin.config';
 import {Observable} from "rxjs";
@@ -28,6 +28,22 @@ export class JsonApiService {
       catchError(this.handleError)
     )
   }
+
+  public post(url,data): Observable<any>{
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+      })
+    };
+    
+    return this.http.post(this.getRemoteUrl() + url,data,httpOptions)
+    .pipe(
+      delay(100),
+      map((data: any)=>(data.data|| data)),
+      catchError(this.handleError)
+    )
+  }
+
 
   private getBaseUrl(){
     return location.protocol + '//' + location.hostname + (location.port ? ':'+location.port : '') + '/'

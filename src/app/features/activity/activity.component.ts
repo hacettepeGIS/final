@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ComponentFactoryResolver, Injector, EmbeddedViewRef, DoCheck, OnDestroy } from '@angular/core';
 import { tileLayer, latLng, icon, marker, MapOptions, LatLng } from 'leaflet';
 import { LeafletDirective } from '@asymmetrik/ngx-leaflet';
-import { ActivityTypesService, NotificationService, JsonApiService } from '@app/core/services';
+import { ActivityTypesService, NotificationService, JsonApiService, ActivityService } from '@app/core/services';
 import {antPath} from 'leaflet-ant-path';
 
 @Component({
@@ -29,6 +29,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
 
   constructor(private resolver: ComponentFactoryResolver, 
               private inj: Injector,
+              private activityService:ActivityService,
               private activityTypesService:ActivityTypesService,
               private notificationService:NotificationService) { }
 
@@ -89,14 +90,6 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
     this.isStopVisible=true;
 
     this.antPath._path=[];
-
-    this.notificationService.smallBox({
-      title: "START!",
-      content: "Your activity started!",
-      color: "#739E73",
-      iconSmall: "fa fa-flag-checkered fa-2x fadeInRight animated",
-      timeout: 5000
-    })
   }
 
   stop(){
@@ -106,53 +99,61 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
 
     this.notificationService.smallBox({
       title: "FINISH!",
-      content: "Current activity finished!",
+      content: "Current activity finished! Please save your activity.",
       color: "#296191",
       iconSmall: "fa fa-trophy fa-2x fadeInRight animated",
       timeout: 5000
     })
   }
 
-  save(){
-    this.notificationService.smallBox({
-      title: "SAVED!",
-      content:JSON.stringify(this.antPath.toGeoJSON()),
-      //content: "Activity has saved successfully!",
-      color: "#739E73",
-      iconSmall: "fa fa-save fa-2x fadeInRight animated",
-      timeout: 5000
-    })
+  save(){   
+    this.activityService.saveActivity(this.antPath.toGeoJSON()).subscribe(
+      ()=>{
+        this.notificationService.smallBox({
+          title: "SAVED!",
+          content: "Activity has saved successfully!",
+          color: "#739E73",
+          iconSmall: "fa fa-save fa-2x fadeInRight animated",
+          timeout: 5000
+        })
 
-    this.isSaveVisible=false;
-    this.isDiscardVisible=false;
-    this.isStartVisible=true;
-    this.isActivitySelectVisible=true;
-
-    this.antPath._path=[];
-    this.totalDistance = 0.00000;
-    this.elapsedTime ='00:00:00'
+        this.isSaveVisible=false;
+        this.isDiscardVisible=false;
+        this.isStartVisible=true;
+        this.isActivitySelectVisible=true;
+    
+        this.antPath._path=[];
+        this.totalDistance = 0.00000;
+        this.elapsedTime ='00:00:00'
+      },
+      (err)=>this.notificationService.smallBox({
+        title: "ERROR!",
+        content: err,
+        color: "#C46A69",
+        iconSmall: "fa fa-bell fa-2x fadeInRight animated",
+        timeout: 5000
+      })
+    );
   }
 
   discard(){
-    this.isSaveVisible=false;
-    this.isDiscardVisible=false;
-    this.isStartVisible=true;
-    this.isActivitySelectVisible=true;
-    this.totalDistance = 0.00000;
-    this.elapsedTime ='00:00:00'
-
-    this.antPath._path=[];
-
     this.notificationService.smartMessageBox({
-      title: "Smart Alert!",
-      content: "This is a confirmation box. Can be programmed for button callback",
+      title: "Warning",
+      content: "Are you sure discarding your activity?",
       buttons: '[No][Yes]'
     }, (ButtonPressed) => {
       if (ButtonPressed === "Yes") {
-
+        this.isSaveVisible=false;
+        this.isDiscardVisible=false;
+        this.isStartVisible=true;
+        this.isActivitySelectVisible=true;
+        this.totalDistance = 0.00000;
+        this.elapsedTime ='00:00:00'
+    
+        this.antPath._path=[];
         this.notificationService.smallBox({
-          title: "Callback function",
-          content: "<i class='fa fa-clock-o'></i> <i>You pressed Yes...</i>",
+          title: "Info",
+          content: "Activity removed successfully",
           color: "#C46A69",
           iconSmall: "fa fa-check fa-2x fadeInRight animated",
           timeout: 4000
