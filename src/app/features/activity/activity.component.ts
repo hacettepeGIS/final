@@ -200,7 +200,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
     let startPoint = this.eventsData.find(x => x.time > 0);
     this.notificationService.smallBox({
       title: "Callback function",
-      content: startPoint,
+      content: JSON.stringify(startPoint),
       color: "#C46A69",
       iconSmall: "fa fa-check fa-2x fadeInRight animated",
       timeout: 2000
