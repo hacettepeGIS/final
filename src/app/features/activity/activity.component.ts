@@ -44,23 +44,24 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
     this.activityTypesService.getTypes().subscribe((resp)=>{
       this.activityTypes=resp
       this.selectedActivity=resp[0].id
+      this.showEvents()
     },(err)=>{
       alert(`Activity types could not fetch from api service. Error : ${err}`)
     })
-
+   
     navigator.geolocation.getCurrentPosition((position) => {
       (<LatLng>this.options.center).lat = this.eventsData[0].lat = position.coords.latitude;
       (<LatLng>this.options.center).lng = this.eventsData[0].lng = position.coords.longitude;
 
       this.leaflet.map.panTo(this.options.center)
-
-      this.showEvents()
+      
       if(this.antPath){
         this.leaflet.map.removeLayer(this.antPath)
         this.antPath._path.push([position.coords.latitude,position.coords.longitude])
         this.leaflet.map.addLayer(this.antPath)
       }
 
+      this.showEvents()
     },(err) => {
         if (err.code == 1) {
           alert("Error: Access is denied!");
@@ -92,7 +93,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
   }
 
   ngAfterViewInit() {
-    this.antPath = antPath([[39.920763,32.854061]], {color: 'blue', weight: 5, opacity: 0.6, reverse: true,}).addTo(this.leaflet.map);
+    this.antPath = antPath([[39.920763,32.854061]], {color: 'blue', weight: 5, opacity: 0.6, reverse: false,}).addTo(this.leaflet.map);
       // ant_path.toGeoJSON()
   }
 
