@@ -138,7 +138,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
       buttons: "[Accept]",
       input: "text",
       placeholder: "Enter your activity name",
-      inputValue: $(this).data(message)
+      inputValue: message
     }, (ButtonPress, Value) => {
       activity.properties.name=Value
 
