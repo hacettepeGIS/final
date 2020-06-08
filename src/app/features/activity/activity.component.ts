@@ -198,35 +198,23 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
   }
 
   calculateTotalDistance(){
-
-    this.notificationService.smallBox({
-      title: "Konumlar",
-      content: JSON.stringify(this.antPath._path),
-      color: "#C46A69",
-      timeout: 2000
-    });
-
-
     // Calculating the distance of the polyline
     var tempLatLng:LatLng = null;
-    $.each(this.antPath._path, function(i, latlng){
-
+    this.antPath._path.forEach(position => {
       this.notificationService.smallBox({
-        title: "latlng",
-        content: JSON.stringify(latlng),
+        title: "Konumlar",
+        content: JSON.stringify(position),
         color: "#C46A69",
         timeout: 2000
       });
 
-
-        let position =new LatLng(latlng[0],latlng[1])
-        if(tempLatLng == null){
-            tempLatLng = position;
-            return;
-        }
-
-        this.totalDistance += tempLatLng.distanceTo(position);
-        tempLatLng = position;
+      let latlng=new LatLng(position[0],position[1])
+      if(tempLatLng == null){
+        tempLatLng = latlng;
+        return;
+      }
+      this.totalDistance += tempLatLng.distanceTo(latlng);
+      tempLatLng = latlng;
     });
   }
 }
