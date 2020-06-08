@@ -130,7 +130,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
       buttons: "[Accept]",
       input: "text",
       placeholder: "Enter your activity name",
-      value:""
+      options: [$(this).data('')]
     }, (ButtonPress, Value) => {
       activity.properties.name=Value
 
