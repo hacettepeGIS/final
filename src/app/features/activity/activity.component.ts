@@ -173,7 +173,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
 
     this.layers = markers;
 
-    if(this.isStopVisible)
+    if(this.isStopVisible==true)
       this.calculateTotalDistance()
   }
 
@@ -201,14 +201,14 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
     // Calculating the distance of the polyline
     var tempLatLng = null;
     $.each(this.antPath._path, function(i, latlng){
-        latlng =new LatLng(latlng[0],latlng[1])
+        let position =new LatLng(latlng[0],latlng[1])
         if(tempLatLng == null){
-            tempLatLng = latlng;
+            tempLatLng = position;
             return;
         }
 
-        this.totalDistance += tempLatLng.distanceTo(latlng);
-        tempLatLng = latlng;
+        this.totalDistance += tempLatLng.distanceTo(position);
+        tempLatLng = position;
     });
   }
 }
