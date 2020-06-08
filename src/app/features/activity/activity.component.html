@@ -6,26 +6,21 @@
         [leafletLayers]="layers">
     </div>
 
-
-
     <div style="position: absolute;left: 50px;top: 10px;z-index: 999;">
         <div class="btn-group">
-            <select class="btn-group" dropdown="" style="height: 32px;" [(ngModel)]="selectedActivity">
+            <select class="btn-group" dropdown="" style="height: 32px;" (change)="showEvents()" [(ngModel)]="selectedActivity" [style.display]="isActivitySelectVisible ? 'block' : 'none'">
                 <option *ngFor="let activityType of activityTypes" value= {{activityType.id}}>
                 {{activityType.name}}
                 </option>
             </select> 
-
-            <a class="btn btn-default" placement="bottom" tooltip="Mark Important"><strong><i
-                        class="fa fa-play fa-lg text-danger"></i></strong></a>
-            <a class="btn btn-default" placement="bottom" tooltip="Move to folder"><strong><i
-                        class="fa fa-stop fa-lg text-danger"></i></strong></a>
-            <a class="deletebutton btn btn-default" placement="bottom" tooltip="Delete"><strong><i
-                        class="fa fa-save fa-lg"></i></strong></a>
-            <a class="deletebutton btn btn-default" placement="bottom" tooltip="Delete"><strong><i
-                class="fa fa-trash-o fa-lg"></i></strong></a>
+            <a class="btn btn-default" placement="bottom" tooltip="Start Activity" (click)="start()" [style.display]="isStartVisible ? 'block' : 'none'"><strong><i
+                        class="fa fa-flag-checkered fa-lg text-success"></i></strong></a>
+            <a class="btn btn-default" placement="bottom" tooltip="Stop Activity" (click)="stop()" [style.display]="isStopVisible ? 'block' : 'none'"><strong><i
+                        class="fa fa-trophy fa-lg text-danger"></i></strong></a>
+            <a class="btn btn-default" placement="bottom" tooltip="Save Activity" (click)="save()" [style.display]="isSaveVisible ? 'block' : 'none'"><strong><i
+                        class="fa fa-save fa-lg text-info"></i></strong></a>
+            <a class="btn btn-default" placement="bottom" tooltip="Discard Activity" (click)="discard()" [style.display]="isDiscardVisible ? 'block' : 'none'"><strong><i
+                class="fa fa-trash-o fa-lg text-info"></i></strong></a>
         </div>
-
-    </div>
-    
+    </div> 
 </div>

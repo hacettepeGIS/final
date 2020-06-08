@@ -55,7 +55,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
 
       this.leaflet.map.panTo(this.options.center)
       
-      if(this.antPath){
+      if(this.antPath && this.isStartVisible==false){
         this.leaflet.map.removeLayer(this.antPath)
         this.antPath._path.push([position.coords.latitude,position.coords.longitude])
         this.leaflet.map.addLayer(this.antPath)
@@ -71,11 +71,54 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
       }, { timeout: this.timeout })
   }
 
-  showEvents() {
+  isStartVisible:boolean=true;
+  isStopVisible:boolean=false;
+  isSaveVisible:boolean=false;
+  isDiscardVisible:boolean=false;
+  isActivitySelectVisible:boolean=true;
 
+  start(){
+    this.isActivitySelectVisible=false;
+    this.isStartVisible=false;
+    this.isStopVisible=true;
+
+    this.antPath._path=[];
+  }
+
+  stop(){
+    this.isStopVisible=false;
+    this.isSaveVisible=true;
+    this.isDiscardVisible=true;
+  }
+
+  save(){
+    this.isSaveVisible=false;
+    this.isDiscardVisible=false;
+    this.isStartVisible=true;
+    this.isActivitySelectVisible=true;
+
+
+    alert("saved")
+
+    this.antPath._path=[];
+  }
+
+  discard(){
+    this.isSaveVisible=false;
+    this.isDiscardVisible=false;
+    this.isStartVisible=true;
+    this.isActivitySelectVisible=true;
+
+    this.antPath._path=[];
+  }
+
+  showEvents() {
+    alert(new Date())
+    this.timeout=10000/this.selectedActivity
     const markers: any[] = [];
 
     for (const mapEvent of this.eventsData) {
+
       markers.push(
         marker(
           [mapEvent.lat, mapEvent.lng],
@@ -93,7 +136,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
   }
 
   ngAfterViewInit() {
-    this.antPath = antPath([[39.920763,32.854061]], {color: 'blue', weight: 5, opacity: 0.6, reverse: false,}).addTo(this.leaflet.map);
+    this.antPath = antPath([[]], {color: 'blue', weight: 5, opacity: 0.6, reverse: false,}).addTo(this.leaflet.map);
       // ant_path.toGeoJSON()
   }
 
