@@ -114,19 +114,23 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
   }
 
   save(){
-    this.isSaveVisible=false;
-    this.isDiscardVisible=false;
-    this.isStartVisible=true;
-    this.isActivitySelectVisible=true;
-    this.antPath._path=[];
-
     this.notificationService.smallBox({
       title: "SAVED!",
-      content: "Activity has saved successfully!",
+      content:JSON.stringify(this.antPath.toGeoJSON()),
+      //content: "Activity has saved successfully!",
       color: "#739E73",
       iconSmall: "fa fa-save fa-2x fadeInRight animated",
       timeout: 5000
     })
+
+    this.isSaveVisible=false;
+    this.isDiscardVisible=false;
+    this.isStartVisible=true;
+    this.isActivitySelectVisible=true;
+
+    this.antPath._path=[];
+    this.totalDistance = 0.00000;
+    this.elapsedTime ='00:00:00'
   }
 
   discard(){
@@ -134,6 +138,8 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
     this.isDiscardVisible=false;
     this.isStartVisible=true;
     this.isActivitySelectVisible=true;
+    this.totalDistance = 0.00000;
+    this.elapsedTime ='00:00:00'
 
     this.antPath._path=[];
 
@@ -180,7 +186,6 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
 
   ngAfterViewInit() {
     this.antPath = antPath([[]], {color: 'blue', weight: 4, opacity: 0.6, reverse: false,}).addTo(this.leaflet.map);
-      // ant_path.toGeoJSON()
   }
 
   ngDoCheck() {
