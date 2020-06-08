@@ -9,11 +9,11 @@
 
     <div style="position: absolute;left: 50px;top: 10px;z-index: 999;">
         <div class="btn-group">
-            <select class="btn-group" dropdown="" style="height: 32px;" (change)="showEvents()" [(ngModel)]="selectedActivity" [style.display]="isActivitySelectVisible ? 'block' : 'none'">
-                <option *ngFor="let activityType of activityTypes" value= {{activityType}}>
-                {{activityType.name}}
-                </option>
-            </select> 
+            <select class="btn-group" dropdown="" style="height: 32px;" (change)="showEvents()"
+                    [(ngModel)]="selectedActivity"
+                    [style.display]="isActivitySelectVisible ? 'block' : 'none'">
+                <option *ngFor="let activityType of activityTypes" [ngValue]="activityType">{{activityType.name}}</option>
+              </select>
             <a class="btn btn-default" placement="bottom" (click)="start()" [style.display]="isStartVisible ? 'block' : 'none'"><strong><i
                         class="fa fa-play fa-lg text-success"></i></strong></a>
             <a class="btn btn-default" placement="bottom" (click)="stop()" [style.display]="isStopVisible ? 'block' : 'none'"><strong><i
