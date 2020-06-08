@@ -202,7 +202,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
   }
 
   ngAfterViewInit() {
-    this.antPath = antPath([[]], {color: 'blue', weight: 4, opacity: 0.6, reverse: false,}).addTo(this.leaflet.map);
+    this.antPath = antPath([[]], {color: 'blue', weight: 5, reverse: false,}).addTo(this.leaflet.map);
   }
 
   ngDoCheck() {
