@@ -198,17 +198,9 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
 
   calculateTotalDistance(){
     let startPoint = this.eventsData.find(x => x.time > 0);
-    this.notificationService.smallBox({
-      title: "Callback function",
-      content: JSON.stringify(startPoint),
-      color: "#C46A69",
-      iconSmall: "fa fa-check fa-2x fadeInRight animated",
-      timeout: 2000
-    });
-
     if(startPoint){
       let lastPoint = this.eventsData[this.eventsData.length - 1];
-      this.elapsedTime = lastPoint.getTime() - startPoint.getTime()
+      this.elapsedTime = lastPoint.time.getTime() - startPoint.time.getTime()
     }
 
     // Calculating the distance of the polyline
