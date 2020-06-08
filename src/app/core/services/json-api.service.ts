@@ -30,18 +30,12 @@ export class JsonApiService {
   }
 
   public post(url,data): Observable<any>{
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-      })
-    };
-    
-    return this.http.post(this.getRemoteUrl() + url,data,httpOptions)
-    .pipe(
-      delay(100),
-      map((data: any)=>(data.data|| data)),
-      catchError(this.handleError)
-    )
+    return this.http.post(this.getRemoteUrl() + url, data)
+      .pipe(
+        delay(100),
+        map((data: any)=>(data.data|| data)),
+        catchError(this.handleError)
+      )
   }
 
 

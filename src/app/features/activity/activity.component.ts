@@ -84,13 +84,12 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
 
     this.showEvents()
   },(err) => {
-      // if (err.code == 1) {
-      //   alert("Error: Access is denied!");
-      // } else if (err.code == 2) {
-      //   alert("Error: Position is unavailable!");
-      // }
+      if (err.code == 1) {
+        alert("Error: Access is denied!");
+      } else if (err.code == 2) {
+        alert("Error: Position is unavailable!");
+      }
     }, { timeout: 5000 })
-
 
   isStartVisible:boolean=true;
   isStopVisible:boolean=false;
@@ -141,14 +140,6 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
       inputValue: message
     }, (ButtonPress, Value) => {
       activity.properties.name=Value
-
-      this.notificationService.smallBox({
-        title: "Test!",
-        content: JSON.stringify(activity),
-        color: "#739E73",
-        iconSmall: "fa fa-save fa-2x fadeInRight animated",
-        timeout: 5000
-      })
 
       this.activityService.saveActivity(activity).subscribe(
         ()=>{
