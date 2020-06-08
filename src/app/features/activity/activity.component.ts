@@ -60,9 +60,10 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
 
     this.leaflet.map.panTo(this.options.center)
     
-    if(this.antPath && this.isStopVisible==true){
+    if(this.antPath){
       this.leaflet.map.removeLayer(this.antPath)
-      this.antPath._path.push([position.coords.latitude,position.coords.longitude])
+      if(this.isStopVisible==true)
+        this.antPath._path.push([position.coords.latitude,position.coords.longitude])
       this.leaflet.map.addLayer(this.antPath)
     }
 
