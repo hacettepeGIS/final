@@ -1,6 +1,5 @@
 import { createSelector, createFeatureSelector } from "@ngrx/store";
 import * as fromReducer from "./profile.reducer";
-import * as fromAuth from "../auth/auth.selectors";
 
 export const getProfileState = createFeatureSelector<fromReducer.ProfileState>(
   "profile"
@@ -24,7 +23,6 @@ export const getProfileError = createSelector(
 
 export const getProfileVM = createSelector(
   getProfileState,
-  fromAuth.getAuthState,
   (state, auth) => {
     return {...state, auth}
   }

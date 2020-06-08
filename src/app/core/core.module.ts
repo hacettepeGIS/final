@@ -9,9 +9,8 @@ import { IonicStorageModule } from "@ionic/storage";
 import { EffectsModule } from "@ngrx/effects";
 import { AppEffects } from "./app.effects";
 import * as fromStore from "./store";
-import { AuthGuard } from "./guards/auth.guard";
 
-import {services, AuthTokenFactory, AuthTokenService, TokenInterceptor} from '@app/core/services'
+import {services} from '@app/core/services'
 import { throwIfAlreadyLoaded } from './guards/module-import.guard';
 
 
@@ -30,23 +29,8 @@ import { throwIfAlreadyLoaded } from './guards/module-import.guard';
   ],
   exports: [],
   providers: [
-    AuthGuard,
-
     ...services,
     ...fromStore.services,
-
-    {
-      provide: APP_INITIALIZER,
-      useFactory: AuthTokenFactory,
-      deps: [AuthTokenService],
-      multi: true
-    },
-
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true
-    }
   ]
 })
 export class CoreModule {

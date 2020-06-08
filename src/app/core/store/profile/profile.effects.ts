@@ -9,8 +9,6 @@ import {
 } from "./profile.actions";
 import { tap, filter, map, catchError, switchMap } from "rxjs/operators";
 
-import * as fromAuth from "../auth";
-
 // import { fireApp } from "../../firebase";
 import { Observable } from "rxjs";
 import { Store } from "@ngrx/store";
@@ -27,15 +25,6 @@ export class ProfileEffects {
     // tap(data => this.uid = data.uid),
     // @todo save in databse
     map(data => new ProfileUpdateSuccess(data)),
-  );
-
-  @Effect()
-  effect$ = this.actions$.pipe(
-    ofType(fromAuth.AuthActionTypes.AuthTokenPayload),
-    filter(_ => !!_),
-    map((_: any) => _.payload),
-    // @todo restore profile data
-    map(data => new ProfileRestore(data))
   );
 
   constructor(private actions$: Actions, private store: Store<ProfileState>) {}

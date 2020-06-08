@@ -1,7 +1,6 @@
 import { Action } from "@ngrx/store";
 import { ProfileActions, ProfileActionTypes } from "./profile.actions";
 
-import * as fromAuth from "../auth";
 import { Profile, DefaultProfile, createProfile } from "./profile.model";
 
 export interface ProfileState {
@@ -18,15 +17,10 @@ export const initialProfileState: ProfileState = {
 
 export function profileReducer(
   state = initialProfileState,
-  action: ProfileActions | fromAuth.AuthActions
+  action: ProfileActions 
 ): ProfileState {
   switch (action.type) {
-    case fromAuth.AuthActionTypes.AuthTokenPayload:
-      return {
-        ...state,
-        model: createProfile(action.payload)
-      };
-
+    
     case ProfileActionTypes.ProfileRestore:
       return {
         ...state,

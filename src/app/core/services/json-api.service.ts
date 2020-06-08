@@ -20,11 +20,22 @@ export class JsonApiService {
     )
   }
 
+  public get(url): Observable<any>{
+    return this.http.get(this.getRemoteUrl() + url)
+    .pipe(
+      delay(100),
+      map((data: any)=>(data.data|| data)),
+      catchError(this.handleError)
+    )
+  }
+
   private getBaseUrl(){
     return location.protocol + '//' + location.hostname + (location.port ? ':'+location.port : '') + '/'
   }
 
-
+  private getRemoteUrl(){
+    return 'https://final-gmt352-api.herokuapp.com/'
+  }
 
   private handleError(error:any) {
     // In a real world app, we might use a remote logging infrastructure

@@ -9,26 +9,20 @@ import {
 
 import { environment } from "../../../environments/environment";
 
-import * as auth from "./auth";
 import * as notify from "./notify";
 import * as profile from "./profile";
 import * as layout from "./layout";
-import * as calendar from "./calendar";
 
 export interface AppState {
-  auth: auth.AuthState;
   notify: notify.NotifyState;
   profile: profile.ProfileState;
   layout: layout.LayoutState;
-  calendar: calendar.CalendarState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
-  auth: auth.authReducer,
   notify: notify.notifyReducer,
   profile: profile.profileReducer,
-  layout: layout.layoutReducer,
-  calendar: calendar.calendarReducer,
+  layout: layout.layoutReducer
 };
 
 // console.log all actions
@@ -54,11 +48,9 @@ export const metaReducers: MetaReducer<AppState>[] = !environment.production
   : [];
 
 export const effects = [
-  auth.AuthEffects,
   notify.NotifyEffects,
   profile.ProfileEffects,
-  layout.LayoutEffects,
-  calendar.CalendarEffects,
+  layout.LayoutEffects
 ];
 
 export const services = [notify.NotifyService];
