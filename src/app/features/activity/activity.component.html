@@ -13,13 +13,13 @@
                 {{activityType.name}}
                 </option>
             </select> 
-            <a class="btn btn-default" placement="bottom" tooltip="Start Activity" (click)="start()" [style.display]="isStartVisible ? 'block' : 'none'"><strong><i
+            <a class="btn btn-default" placement="bottom" (click)="start()" [style.display]="isStartVisible ? 'block' : 'none'"><strong><i
                         class="fa fa-flag-checkered fa-lg text-success"></i></strong></a>
-            <a class="btn btn-default" placement="bottom" tooltip="Stop Activity" (click)="stop()" [style.display]="isStopVisible ? 'block' : 'none'"><strong><i
+            <a class="btn btn-default" placement="bottom" (click)="stop()" [style.display]="isStopVisible ? 'block' : 'none'"><strong><i
                         class="fa fa-trophy fa-lg text-danger"></i></strong></a>
-            <a class="btn btn-default" placement="bottom" tooltip="Save Activity" (click)="save()" [style.display]="isSaveVisible ? 'block' : 'none'"><strong><i
+            <a class="btn btn-default" placement="bottom" (click)="save()" [style.display]="isSaveVisible ? 'block' : 'none'"><strong><i
                         class="fa fa-save fa-lg text-info"></i></strong></a>
-            <a class="btn btn-default" placement="bottom" tooltip="Discard Activity" (click)="discard()" [style.display]="isDiscardVisible ? 'block' : 'none'"><strong><i
+            <a class="btn btn-default" placement="bottom" (click)="discard()" [style.display]="isDiscardVisible ? 'block' : 'none'"><strong><i
                 class="fa fa-trash-o fa-lg text-info"></i></strong></a>
         </div>
         <div class="text-info"><strong>Total Distance {{(totalDistance/1000).toFixed(2)}} km</strong></div>

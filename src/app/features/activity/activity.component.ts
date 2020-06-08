@@ -20,10 +20,10 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
 
   activityTypes=[]
   selectedActivity=0;
-  eventsData: any = [{
+  eventsData: Array<any> = [{
     lat: 39.920763,
     lng: 32.854061,
-    iconURL: 'assets/img/0.png'
+    time:null
   }];
   antPath;
 
@@ -52,8 +52,10 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
   }
 
   id = navigator.geolocation.watchPosition((position) => {
-    (<LatLng>this.options.center).lat = this.eventsData[0].lat = position.coords.latitude;
-    (<LatLng>this.options.center).lng = this.eventsData[0].lng = position.coords.longitude;
+    this.eventsData.push({ lat:position.coords.latitude, lng:position.coords.longitude, time:new Date() });
+
+    (<LatLng>this.options.center).lat = position.coords.latitude;
+    (<LatLng>this.options.center).lng = position.coords.longitude;
 
     this.leaflet.map.panTo(this.options.center)
     
@@ -155,21 +157,18 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
 
   showEvents() {
     const markers: any[] = [];
-
-    for (const mapEvent of this.eventsData) {
-
-      markers.push(
-        marker(
-          [mapEvent.lat, mapEvent.lng],
-          {
-            icon: icon({
-              iconUrl: `assets/img/${this.selectedActivity}.png`, 
-              iconSize: [32, 32]
-            })
-          }
-        )
-      );
-    }
+    let lastPoint = this.eventsData[this.eventsData.length - 1];
+    markers.push(
+      marker(
+        [lastPoint.lat, lastPoint.lng],
+        {
+          icon: icon({
+            iconUrl: `assets/img/${this.selectedActivity}.png`, 
+            iconSize: [32, 32]
+          })
+        }
+      )
+    );
 
     this.layers = markers;
 
@@ -198,6 +197,11 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
   }
 
   calculateTotalDistance(){
+    let startPoint = this.eventsData.find(x => x.time > 0);
+    let lastPoint = this.eventsData[this.eventsData.length - 1];
+
+    this.elapsedTime = lastPoint.getTime() - startPoint.getTime()
+
     // Calculating the distance of the polyline
     var tempLatLng:LatLng = null;
     this.totalDistance = 0.00000;
