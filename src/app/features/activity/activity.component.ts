@@ -66,7 +66,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
       alert(`Activity types could not fetch from api service. Error : ${err}`)
     })
 
-    $.getJSON("http://jsonip.com", function (data) {
+    $.getJSON("https://jsonip.com", function (data) {
       this.ip=data.ip
     });
   }
