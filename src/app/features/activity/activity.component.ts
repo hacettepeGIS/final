@@ -128,7 +128,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
     let hour = lastPoint.time.getHours() 
     let message= hour>5 && hour<11 ? "Morning " :
                  hour>=11 && hour<15 ? "Lunch " :
-                 hour>=15 && hour<18 ? "AFternoon " :
+                 hour>=15 && hour<18 ? "Afternoon " :
                  hour>=18 && hour<22 ? "Evenning " : "Night ";
     message+=this.selectedActivity["name"]
 
@@ -143,6 +143,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
     }, (ButtonPress, Value) => {
       activity.properties.name=Value
       activity.properties.ip=this.ip
+      activity.properties.activityTypeId=this.selectedActivity["id"]
 
       this.activityService.saveActivity(activity).subscribe(
         ()=>{
