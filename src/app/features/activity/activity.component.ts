@@ -26,6 +26,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
     time:null
   }];
   antPath;
+  ip:string="0.0.0.0"
 
   layersControl = {
     baseLayers: {
@@ -49,7 +50,6 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
               private notificationService:NotificationService) { }
 
   ngOnInit() {
-
     this.options = {
       layers: [
         tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 30, attribution: '...' })
@@ -65,6 +65,10 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
     },(err)=>{
       alert(`Activity types could not fetch from api service. Error : ${err}`)
     })
+
+    $.getJSON("http://jsonip.com", function (data) {
+      this.ip=data.ip
+    });
   }
 
   id = navigator.geolocation.watchPosition((position) => {
@@ -140,6 +144,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
       inputValue: message
     }, (ButtonPress, Value) => {
       activity.properties.name=Value
+      activity.properties.ip=this.ip
 
       this.activityService.saveActivity(activity).subscribe(
         ()=>{
