@@ -29,6 +29,15 @@ export class JsonApiService {
     )
   }
 
+  public getOutSide(url): Observable<any>{
+    return this.http.get(url)
+    .pipe(
+      delay(100),
+      map((data: any)=>(data.data|| data)),
+      catchError(this.handleError)
+    )
+  }
+
   public post(url,data): Observable<any>{
     let httpHeaders = new HttpHeaders({
       'Content-Type' : 'application/json',

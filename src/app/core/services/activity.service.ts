@@ -10,4 +10,8 @@ export class ActivityService {
     saveActivity(activity:GeoJSON){
         return this.jsonApiService.post("activities",activity)
     }
+
+    getIp(){
+        return this.jsonApiService.getOutSide("https://jsonip.com/")
+    }
 }
