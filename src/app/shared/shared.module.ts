@@ -5,9 +5,7 @@ import { RouterModule } from "@angular/router";
 
 import { SmartadminLayoutModule } from "./layout";
 
-import {I18nModule} from "./i18n/i18n.module";
 import { UserModule } from "./user/user.module";
-import { BootstrapModule } from "@app/shared/bootstrap.module";
 
 import {SmartadminWidgetsModule} from "./widgets/smartadmin-widgets.module";
 
@@ -23,8 +21,7 @@ import { CalendarComponentsModule } from "@app/shared/calendar/calendar-componen
     FormsModule,
     RouterModule,
 
-    SmartadminLayoutModule,
-    BootstrapModule
+    SmartadminLayoutModule
   ],
   declarations: [],
   exports: [
@@ -34,10 +31,6 @@ import { CalendarComponentsModule } from "@app/shared/calendar/calendar-componen
 
     UserModule,
     SmartadminLayoutModule,
-    BootstrapModule,
-
-    I18nModule,
-
     UtilsModule,
     PipesModule,
 

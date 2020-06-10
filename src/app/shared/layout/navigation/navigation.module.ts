@@ -2,7 +2,6 @@
 
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
-import {I18nModule} from "../../i18n/i18n.module";
 import {BigBreadcrumbsComponent} from "./big-breadcrumbs.component";
 import {MinifyMenuComponent} from "./minify-menu.component";
 import {NavigationComponent} from "./navigation.component";
@@ -14,7 +13,6 @@ import {RouterModule} from "@angular/router";
   imports: [
     CommonModule,
     RouterModule,
-    I18nModule,
     UserModule,
   ],
   declarations: [

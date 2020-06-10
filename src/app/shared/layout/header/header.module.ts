@@ -15,10 +15,7 @@ import {HeaderComponent} from "./header.component";
 
 import {UtilsModule} from "@app/shared/utils/utils.module";
 import {PipesModule} from "@app/shared/pipes/pipes.module";
-import {I18nModule} from "@app/shared/i18n/i18n.module";
 import {UserModule} from "@app/shared/user/user.module";
-import {BsDropdownModule, PopoverModule} from "ngx-bootstrap";
-
 
 @NgModule({
   imports: [
@@ -26,9 +23,7 @@ import {BsDropdownModule, PopoverModule} from "ngx-bootstrap";
 
     FormsModule,
 
-    BsDropdownModule,
-
-    UtilsModule,PipesModule, I18nModule, UserModule, PopoverModule,
+    UtilsModule,PipesModule, UserModule,
   ],
   declarations: [
     ActivitiesMessageComponent,
