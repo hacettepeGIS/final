@@ -9,9 +9,6 @@ import {
   AfterContentInit
 } from "@angular/core";
 
-
-
-
 @Component({
   selector: "calendar-widget",
   templateUrl: "./calendar-widget.component.html"
@@ -134,5 +131,9 @@ export class CalendarWidgetComponent implements OnDestroy, AfterContentInit {
 
   today() {
     $(".fc-today-button", this.el.nativeElement).click();
+  }
+
+  reRender(){
+    this.fullcalendar.fullCalendar("refetchEvents");
   }
 }

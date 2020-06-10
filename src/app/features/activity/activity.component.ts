@@ -10,7 +10,7 @@ import {antPath} from 'leaflet-ant-path';
 })
 export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy {
   totalDistance = 0.00000;
-  elapsedTime:string='00:00:00'
+  duration:string='00:00:00'
   componentRef: any;
   subscription: any;
 
@@ -99,7 +99,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
   isActivitySelectVisible:boolean=true;
 
   start(){
-    this.elapsedTime='00:00:00'
+    this.duration='00:00:00'
     this.totalDistance=0
     this.isActivitySelectVisible=false;
     this.isStartVisible=false;
@@ -143,6 +143,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
       activity.properties.name=Value
       activity.properties.ip=this.ip
       activity.properties.activityTypeId=this.selectedActivity["id"]
+      activity.properties.duration=this.calculateTotalDurationTime()
 
       this.activityService.saveActivity(activity).subscribe(
         ()=>{
@@ -161,7 +162,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
       
           this.antPath._path=[];
           this.totalDistance = 0.00000;
-          this.elapsedTime ='00:00:00'
+          this.duration ='00:00:00'
         },
         (err)=>this.notificationService.smallBox({
           title: "ERROR!",
@@ -186,7 +187,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
         this.isStartVisible=true;
         this.isActivitySelectVisible=true;
         this.totalDistance = 0.00000;
-        this.elapsedTime ='00:00:00'
+        this.duration ='00:00:00'
     
         this.antPath._path=[];
         this.notificationService.smallBox({
@@ -219,7 +220,8 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
 
     if(this.isStopVisible==true){
       this.calculateTotalDistance()
-      this.elapsedTime = this.calculateTotalDuration()
+      let milliseconds = this.calculateTotalDurationTime()
+      this.duration = this.activityService.convertMsToDateString(milliseconds)
     }
   }
 
@@ -258,29 +260,12 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
     });
   }
 
-  calculateTotalDuration() {
+  calculateTotalDurationTime(){
     let startPoint = this.eventsData.find(x => x.time > 0);
     if(!startPoint)
-      return "00:00:00"
+      return 0
     
     let lastPoint = this.eventsData[this.eventsData.length - 1];
-    let milliseconds:number = lastPoint.time.getTime() - startPoint.time.getTime()
-           
-    //Get hours from milliseconds
-    var hours = milliseconds / (1000*60*60);
-    var absoluteHours = Math.floor(hours);
-    var h = absoluteHours > 9 ? absoluteHours : '0' + absoluteHours;
-
-    //Get remainder from hours and convert to minutes
-    var minutes = (hours - absoluteHours) * 60;
-    var absoluteMinutes = Math.floor(minutes);
-    var m = absoluteMinutes > 9 ? absoluteMinutes : '0' +  absoluteMinutes;
-
-    //Get remainder from minutes and convert to seconds
-    var seconds = (minutes - absoluteMinutes) * 60;
-    var absoluteSeconds = Math.floor(seconds);
-    var s = absoluteSeconds > 9 ? absoluteSeconds : '0' + absoluteSeconds;
-
-    return h + ':' + m + ':' + s;
+    return lastPoint.time.getTime() - startPoint.time.getTime()
   }
 }

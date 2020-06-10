@@ -25,7 +25,6 @@ import { BsDropdownModule,TooltipModule } from "ngx-bootstrap";
 
     UtilsModule,
 
-
     TooltipModule,
     BsDropdownModule,
   ],
