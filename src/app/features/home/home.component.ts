@@ -124,11 +124,40 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     this.leaflet.map.removeLayer(this.antPath)
     this.antPath._path=geometry.coordinates;
+    this.showMarkers(geometry.coordinates)
     this.leaflet.map.addLayer(this.antPath)
-    
-
+  
     this.leaflet.map.fitBounds(this.antPath.getBounds());
+  }
 
+
+  showMarkers(coordinates) {
+    const markers: any[] = [];
+    markers.push(
+      marker(
+        [coordinates[0][0], coordinates[0][1]],
+        {
+          icon: icon({
+            iconUrl: `assets/img/start.png`, 
+            iconSize: [16, 16]
+          })
+        }
+      )
+    );
+
+    markers.push(
+      marker(
+        [coordinates[coordinates.length-1][0], coordinates[coordinates.length-1][1]],
+        {
+          icon: icon({
+            iconUrl: `assets/img/finish.png`, 
+            iconSize: [16, 16]
+          })
+        }
+      )
+    );
+
+    this.layers = markers;
   }
 
   isInfoShow = false;
