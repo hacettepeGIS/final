@@ -91,3 +91,5 @@ import 'jquery-ui-npm/jquery-ui.min.js'
 
 
 require('smartadmin-plugins/notification/SmartNotification.min.js');
+var global = global || window;
+global.Buffer = global.Buffer || require('buffer').Buffer;

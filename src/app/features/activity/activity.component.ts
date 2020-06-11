@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ComponentFactoryResolver, Injector, EmbeddedViewRef, DoCheck, OnDestroy } from '@angular/core';
-import { tileLayer, latLng, icon, marker, MapOptions, LatLng, GeoJSON } from 'leaflet';
+import { tileLayer, latLng, icon, marker, MapOptions, LatLng } from 'leaflet';
 import { LeafletDirective } from '@asymmetrik/ngx-leaflet';
 import { ActivityTypesService, NotificationService, JsonApiService, ActivityService } from '@app/core/services';
 import {antPath} from 'leaflet-ant-path';

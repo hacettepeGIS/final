@@ -1,14 +1,17 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import * as L from 'leaflet';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { tileLayer, latLng, icon, marker, MapOptions, LatLng, geoJSON } from 'leaflet';
 import { ActivityService } from '@app/core/services';
 import _ from 'lodash';
 import { CalendarWidgetComponent } from '@app/shared/calendar/calendar-widget/calendar-widget.component';
+import {antPath} from 'leaflet-ant-path';
+import { LeafletDirective } from '@asymmetrik/ngx-leaflet';
+import * as wkx from "wkx";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html'
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
   @ViewChild('calendar', { }) calendar:CalendarWidgetComponent;
 
   ip:string
@@ -20,14 +23,6 @@ export class HomeComponent implements OnInit {
 
   events=[]
   activity={}
-
-  options = {
-    layers: [
-      L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
-    ],
-    zoom: 5,
-    center: L.latLng(46.879966, -121.726909)
-  };
 
   constructor(private activityService:ActivityService) {}
 
@@ -50,6 +45,10 @@ export class HomeComponent implements OnInit {
     },(err)=>alert(err))
   }
 
+  ngAfterViewInit(){
+    this.antPath = antPath([[]], {color: 'blue', weight: 5, reverse: false,}).addTo(this.leaflet.map);
+  }
+
   fetchCalenderActivities(){
     this.activityService.getActivities({
       "order": [
@@ -63,7 +62,9 @@ export class HomeComponent implements OnInit {
         "name": true,
         "activityTypeId": true,
         "time": true,
-        "duration": true
+        "duration": true,
+        "distance":true,
+        "geometry":true
       }
     }).subscribe((resp)=>{
       while(this.events.length>0)
@@ -100,7 +101,8 @@ export class HomeComponent implements OnInit {
           activityTypeId:event['activityTypeId'],
           time:event['time'],
           duration:event['duration'],
-          distance:event['distance']
+          distance:event['distance'],
+          geometry:event['geometry'],
         });
       }
       this.calendar.reRender()
@@ -108,19 +110,40 @@ export class HomeComponent implements OnInit {
   }
 
   onEventClicked(event){
-    //activityTypeId
     this.activity['title']=event.title
     this.activity['elapsedTime']=this.activityService.convertMsToDateString(event.duration)
     this.activity['activityDate']= new Date(event.time).toLocaleDateString()
-    this.activity['totalDistance']= event.distance
+    this.activity['totalDistance']= (Number(event.distance)/1000).toFixed(2) + " km"
     this.activity['type']= event.activityTypeId == 1 ? "Walking" : "Running"
     
+    let pace = (event.duration*1000) / Number(event.distance)
+    this.activity['pace']= this.activityService.convertMsToDateString(pace)
+    this.isInfoShow = true;
+
+    var geometry:any =wkx.Geometry.parse(event.geometry).toGeoJSON();
+
+    this.leaflet.map.removeLayer(this.antPath)
+    this.antPath._path=geometry.coordinates;
+    this.leaflet.map.addLayer(this.antPath)
+    
+
+    this.leaflet.map.fitBounds(this.antPath.getBounds());
+
   }
 
-  calculatePace({rTime,  rDistancePerMi}) {
-    let distance = rDistancePerMi;
-    let time =  rTime;
-    let avgPace = time / distance;
-    return avgPace;
-  }
+  isInfoShow = false;
+
+  layers: any[];
+
+  options = {
+    layers: [
+      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 30, attribution: '...' })
+    ],
+    zoom: 18,
+    center: latLng(39.920763, 32.854061),
+  };   
+
+  antPath;
+  @ViewChild('leaflet', { read: LeafletDirective }) leaflet:LeafletDirective;
+
 }
