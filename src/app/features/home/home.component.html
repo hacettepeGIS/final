@@ -1,6 +1,30 @@
 <div id="content">
     <div class="row">
         <div class="col-sm-4">
+
+            <div class="well">
+                <button class="close" data-dismiss="alert">
+                  ×
+                </button>
+
+                <h1><span class="semi-bold">{{activity.title}}</span><sup class="badge bg-color-red bounceIn animated">{{type}}</sup></h1><br>
+                <h6>
+                    <div class="row">
+                        <div class="col-sm-6"><label class="text-danger fadeIn fast animated"><strong>Total Distance</strong></label></div>
+                        <div class="col-sm-6"><label class="fadeIn fast animated"><strong>: {{activity.totalDistance}}</strong></label></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6"><label class="text-danger fadeIn fast animated"><strong>Elapsed Time</strong></label></div>
+                        <div class="col-sm-6"><label class="fadeIn fast animated"><strong>: {{activity.elapsedTime}}</strong></label></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6"><label class="text-danger fadeIn fast animated"><strong>Activity Date</strong></label></div>
+                        <div class="col-sm-6"><label class="fadeIn fast animated"><strong>: {{activity.activityDate}}</strong></label></div>
+                    </div>
+                </h6>
+              </div>
+
+
             <div class = "input-group">
                 <l-select2 [(ngModel)]="ip" 
                             [data]="ipList" [options]="selectOptions"></l-select2>
@@ -10,7 +34,7 @@
                    </button>
                 </span>
             </div>
-            <calendar-widget #calendar [events]="events"></calendar-widget>
+            <calendar-widget #calendar [events]="events" (clickEvent)="onEventClicked($event)"></calendar-widget>
         </div>
         <div class="col-sm-8">
             <div style="height: 500px;"

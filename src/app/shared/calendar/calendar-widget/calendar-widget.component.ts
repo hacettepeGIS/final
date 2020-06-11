@@ -17,6 +17,7 @@ export class CalendarWidgetComponent implements OnDestroy, AfterContentInit {
   @Input() public events;
   @Input() public period = "Showing";
   @Output() addEvent = new EventEmitter();
+  @Output() clickEvent = new EventEmitter();
 
   private $calendarRef: any;
   private fullcalendar: any;
@@ -104,7 +105,10 @@ export class CalendarWidgetComponent implements OnDestroy, AfterContentInit {
             .find(".fc-event-title")
             .append("<i class='air air-top-right fa " + event.icon + " '></i>");
         }
-      }
+      },
+      eventClick: function(info) {
+        this.clickEvent.emit(info);
+      }.bind(this)
     });
 
     $(".fc-header-right, .fc-header-center", this.$calendarRef).hide();

@@ -144,6 +144,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
       activity.properties.ip=this.ip
       activity.properties.activityTypeId=this.selectedActivity["id"]
       activity.properties.duration=this.calculateTotalDurationTime()
+      activity.properties.distance=this.totalDistance
 
       this.activityService.saveActivity(activity).subscribe(
         ()=>{

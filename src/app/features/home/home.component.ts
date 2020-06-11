@@ -18,6 +18,9 @@ export class HomeComponent implements OnInit {
     allowClear: true
   }
 
+  events=[]
+  activity={}
+
   options = {
     layers: [
       L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '...' })
@@ -33,34 +36,19 @@ export class HomeComponent implements OnInit {
       "fields": {
         "ip": true
       }
-    }
-    ).subscribe((resp)=>{
+    }).subscribe((resp)=>{
       this.ipList = _(resp)
             .groupBy(x => x.ip)
             .map((value, key) => ({ id: key, text: key }))
             .value();
 
-     if(this.ipList.length>0)
-       this.ip = this.ipList[0]
-    },(err)=>alert(err))
-    // this.activityService.getActivities({
-    //     "where": {
-    //       "ip": this.activityService.ip$.value.ip
-    //     },
-    //     "fields": {
-    //       "id": true,
-    //       "ip": true,
-    //       "name": true,
-    //       "activityTypeId": true,
-    //       "geometry": true,
-    //       "time": true
-    //     }
-    //   }
-    //   ).subscribe((resp)=>alert(JSON.stringify(resp)),(err)=>alert(err))
+     if(this.ipList.length>0){
+      this.ip = this.ipList[0]
+      this.fetchCalenderActivities()
+     }
 
-    //   this.ip = this.activityService.ip$.value.ip
+    },(err)=>alert(err))
   }
-  events=[]
 
   fetchCalenderActivities(){
     this.activityService.getActivities({
@@ -100,20 +88,39 @@ export class HomeComponent implements OnInit {
           }
         }
 
-        let finishTime=new Date(event['time']).getTime()
-        let startTime=finishTime-event['duration']
+        let finishTime=new Date(event['time'])
+        let startTime=finishTime.getTime()-event['duration']
 
         this.events.push({
           id: event['id'],
           title: event['name'],
-          start:this.activityService.convertMsToDateString(startTime),
-          end:this.activityService.convertMsToDateString(finishTime),
-          className:["event", color]
+          start:new Date(startTime),
+          end:finishTime,
+          className:["event", color],
+          activityTypeId:event['activityTypeId'],
+          time:event['time'],
+          duration:event['duration'],
+          distance:event['distance']
         });
       }
       this.calendar.reRender()
     },(err)=>alert(err))
   }
 
-}
+  onEventClicked(event){
+    //activityTypeId
+    this.activity['title']=event.title
+    this.activity['elapsedTime']=this.activityService.convertMsToDateString(event.duration)
+    this.activity['activityDate']= new Date(event.time).toLocaleDateString()
+    this.activity['totalDistance']= event.distance
+    this.activity['type']= event.activityTypeId == 1 ? "Walking" : "Running"
+    
+  }
 
+  calculatePace({rTime,  rDistancePerMi}) {
+    let distance = rDistancePerMi;
+    let time =  rTime;
+    let avgPace = time / distance;
+    return avgPace;
+  }
+}

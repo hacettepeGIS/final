@@ -25,6 +25,7 @@ export class ActivityService {
 
 
   convertMsToDateString(milliseconds:number) {
+    milliseconds=milliseconds% (1000*60*60*24);
     //Get hours from milliseconds
     var hours = milliseconds / (1000*60*60);
     var absoluteHours = Math.floor(hours);
