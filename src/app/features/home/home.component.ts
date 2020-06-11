@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { CalendarWidgetComponent } from '@app/shared/calendar/calendar-widget/calendar-widget.component';
 import {antPath} from 'leaflet-ant-path';
 import { LeafletDirective } from '@asymmetrik/ngx-leaflet';
-import * as wkx from "wkx";
+import * as wkt from "wkt";
 
 @Component({
   selector: 'app-home',
@@ -120,10 +120,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.activity['pace']= this.activityService.convertMsToDateString(pace)
     this.isInfoShow = true;
 
-    var geometry:any =wkx.Geometry.parse(event.geometry).toGeoJSON();
+    var geometry:any =wkt.parse(event.geometry);
 
     this.leaflet.map.removeLayer(this.antPath)
-    this.antPath._path=geometry.coordinates;
+
+    this.antPath._path=[]
+    for (const coordinate of geometry.coordinates) {
+      this.antPath._path.push([coordinate[1],coordinate[0]])
+    }
     this.showMarkers(geometry.coordinates)
     this.leaflet.map.addLayer(this.antPath)
   
@@ -135,7 +139,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     const markers: any[] = [];
     markers.push(
       marker(
-        [coordinates[0][0], coordinates[0][1]],
+        [coordinates[0][1], coordinates[0][0]],
         {
           icon: icon({
             iconUrl: `assets/img/start.png`, 
@@ -147,7 +151,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     markers.push(
       marker(
-        [coordinates[coordinates.length-1][0], coordinates[coordinates.length-1][1]],
+        [coordinates[coordinates.length-1][1], coordinates[coordinates.length-1][0]],
         {
           icon: icon({
             iconUrl: `assets/img/finish.png`, 
