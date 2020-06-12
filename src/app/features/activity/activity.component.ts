@@ -65,7 +65,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
     },(err)=>{
       alert(`Activity types could not fetch from api service. Error : ${err}`)
     })
-    this.activityService.ip$.subscribe((resp)=>this.ip=resp.ip);
+    this.activityService.getIp().subscribe((resp)=>this.ip=resp.ip,(err)=>alert(err))
   }
 
   id = navigator.geolocation.watchPosition((position) => {

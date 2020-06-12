@@ -8,10 +8,14 @@ const defaultIp = {
 }
 @Injectable()
 export class ActivityService {
-    public ip$ = new BehaviorSubject({...defaultIp});; 
+    //public ip$ = new BehaviorSubject({...defaultIp});; 
 
     constructor(private jsonApiService:JsonApiService) {
-        this.jsonApiService.getOutSide("https://jsonip.com/").subscribe(this.ip$)
+        //this.jsonApiService.getOutSide("https://jsonip.com/").subscribe(this.ip$)
+    }
+
+    getIp(){
+        return this.jsonApiService.getOutSide("https://jsonip.com/")
     }
 
     saveActivity(activity:GeoJSON){
