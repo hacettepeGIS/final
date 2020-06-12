@@ -37,11 +37,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
             .map((value, key) => ({ id: key, text: key }))
             .value();
 
-     if(this.ipList.length>0){
-      this.ip = this.ipList[0]
-      this.fetchCalenderActivities()
-     }
-
+      this.activityService.getIp().subscribe((resp)=>{
+        this.ip=resp.ip
+        this.fetchCalenderActivities()
+      }
+      ,(err)=>{
+        if(this.ipList.length>0){
+          this.ip = this.ipList[0]
+          this.fetchCalenderActivities()
+         }
+      })
     },(err)=>alert(err))
   }
 
