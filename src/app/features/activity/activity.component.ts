@@ -55,7 +55,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
         tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 30, attribution: '...' })
       ],
       zoom: 18,
-      center: latLng(39.920763, 32.854061),
+      center: latLng(39.920763, 32.854061), 
     };   
 
     this.activityTypesService.getTypes().subscribe((resp)=>{
@@ -90,7 +90,7 @@ export class ActivityComponent implements OnInit,AfterViewInit,DoCheck,OnDestroy
       } else if (err.code == 2) {
         alert("Error: Position is unavailable!");
       }
-    }, { timeout: 5000 })
+    }, { timeout: 5000, enableHighAccuracy:true, maximumAge: 0})
 
   isStartVisible:boolean=true;
   isStopVisible:boolean=false;
