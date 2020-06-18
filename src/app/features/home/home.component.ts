@@ -187,4 +187,19 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   antPath;
   @ViewChild('leaflet', { read: LeafletDirective }) leaflet:LeafletDirective;
+
+  layersControl = {
+    baseLayers: {
+      'Open Street Map': tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 30, attribution: '...' }),
+      'Open Cycle Map': tileLayer('http://{s}.tile.opencyclemap.org/cycle/{z}/{x}/{y}.png?apikey=c0ac24eb615e4c72b536cc9512d19cb5', { maxZoom: 30, attribution: '...' }),
+      'Transport': tileLayer('https://tile.thunderforest.com/transport/{z}/{x}/{y}.png?apikey=c0ac24eb615e4c72b536cc9512d19cb5', { maxZoom: 30, attribution: '...' }),
+      'Landscape': tileLayer('https://tile.thunderforest.com/landscape/{z}/{x}/{y}.png?apikey=c0ac24eb615e4c72b536cc9512d19cb5', { maxZoom: 30, attribution: '...' }), 
+      'Outdoors': tileLayer('https://tile.thunderforest.com/outdoors/{z}/{x}/{y}.png?apikey=c0ac24eb615e4c72b536cc9512d19cb5', { maxZoom: 30, attribution: '...' }), 
+      'Transport Dark': tileLayer('https://tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png?apikey=c0ac24eb615e4c72b536cc9512d19cb5', { maxZoom: 30, attribution: '...' }), 
+      'Spinal Map': tileLayer('https://tile.thunderforest.com/spinal-map/{z}/{x}/{y}.png?apikey=c0ac24eb615e4c72b536cc9512d19cb5', { maxZoom: 30, attribution: '...' }), 
+      'Pioneer': tileLayer('https://tile.thunderforest.com/pioneer/{z}/{x}/{y}.png?apikey=c0ac24eb615e4c72b536cc9512d19cb5', { maxZoom: 30, attribution: '...' }), 
+      'Mobile Atlas': tileLayer('https://tile.thunderforest.com/mobile-atlas/{z}/{x}/{y}.png?apikey=c0ac24eb615e4c72b536cc9512d19cb5', { maxZoom: 30, attribution: '...' }), 
+      'Neighbourhood': tileLayer('https://tile.thunderforest.com/neighbourhood/{z}/{x}/{y}.png?apikey=c0ac24eb615e4c72b536cc9512d19cb5', { maxZoom: 30, attribution: '...' }) 
+    }
+  }
 }
