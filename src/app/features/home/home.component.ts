@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { tileLayer, latLng, icon, marker, MapOptions, LatLng, geoJSON } from 'leaflet';
+import { tileLayer, latLng, icon, marker, MapOptions, LatLng, geoJSON, Point } from 'leaflet';
 import { ActivityService } from '@app/core/services';
 import _ from 'lodash';
 import { CalendarWidgetComponent } from '@app/shared/calendar/calendar-widget/calendar-widget.component';
@@ -135,8 +135,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
     this.showMarkers(geometry.coordinates)
     this.leaflet.map.addLayer(this.antPath)
-  
-    this.leaflet.map.fitBounds(this.antPath.getBounds());
+
+    this.leaflet.map.fitBounds(this.antPath.getBounds(),{
+      animate:true,
+      maxZoom:25,
+      padding:[50, 50]
+    });
   }
 
 
@@ -175,13 +179,12 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   options = {
     layers: [
-      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 30, attribution: '...' })
+      tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 25, attribution: '...' })
     ],
-    zoom: 18,
+    zoom: 15,
     center: latLng(39.920763, 32.854061),
   };   
 
   antPath;
   @ViewChild('leaflet', { read: LeafletDirective }) leaflet:LeafletDirective;
-
 }
