@@ -44,7 +44,7 @@
     "debounce": "1.1.0",
     "dropzone": "5.5.1",
     "dygraphs": "2.1.0",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "fuelux": "3.17.0",
     "he": "1.2.0",
     "highcharts": "6.2.0",
